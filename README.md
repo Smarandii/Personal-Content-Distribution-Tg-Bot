@@ -1,8 +1,8 @@
-# PersonalBrand_TgBot
+# Personal Content Distribution Telegram Bot
 
-# Use cases
+## Use cases
 
-### Main features:
+#### Main features:
 * User will use this bot in order to get unique content from authors
 
 
@@ -16,7 +16,7 @@ For example, send content only if user is subscribed to telegram channel
 * Client will use this bot to map trigger word to his conditions. He will send instructions defined by a condition defining protocol and those conditions will be required for user to satisfy in order to obtain content that is mapped to this trigger word,
 
 
-### Sub feature (This features does not include in MVP.):
+#### Sub feature (This features does not include in MVP.):
 * User will use this bot as some sort of mailing system to notify users of some events.
 
 
@@ -24,7 +24,7 @@ For example, send content only if user is subscribed to telegram channel
 
 
 
-# MVP Workflow for v1.0 of this telegram bot
+## MVP Workflow for v1.0 of this telegram bot
 
 1. User types command
 ```bash
@@ -35,7 +35,7 @@ For example, send content only if user is subscribed to telegram channel
 4. User provide code word for content
 5. Bot sends content mapped to that word
 
-# Bot structure and architecture
+## Bot structure and architecture
 
 ### This bot uses [aiogram](https://docs.aiogram.dev/en/latest/quick_start.html)
 
@@ -45,26 +45,28 @@ For example, send content only if user is subscribed to telegram channel
 3. There is a message handlers for text. If this user provided trigger word in this text message this handler checks if user is satisfied client conditions mapped to that trigger word.
 If clients conditions are satisfied by user, then bot will send content mapped to that trigger word.
 
-## Base classes of this bot are:
+### Base classes of this bot are:
 
-## Condition - this is an abstract class that represents conditions that have to be satisfied by user in order to get Content
-#### Condition properties:
-- trigger word (has to be unique, will be used as primary key)
-- user_id
-#### Condition methods:
-- are_satisfied(self) (returns true if conditions are satisfied by specific user_id and false otherwise)
+### Condition
+#### is an abstract class that represents conditions that have to be satisfied by user in order to get Content
+##### Condition properties:
+- `trigger word: str` (has to be unique, will be used as primary key)
+- `user_id: int`
+##### Condition methods:
+- `is_satisfied(self) -> bool` (returns true if conditions are satisfied by specific user_id and false otherwise)
 
-## IsMember(Condition) - child of Condition class, represents
-#### IsMember(Condition) properties:
-- trigger word (has to be unique, will be used as primary key)
-- user_id
+### IsMember(Condition) - child of Condition class, represents
+##### IsMember(Condition) properties:
+- `trigger word: str` (has to be unique, will be used as primary key)
+- `user_id: int`
 
-#### IsMember methods:
-- of_group(self, group_id)
-- of_channel(self, channel_id)
+##### IsMember methods:
+- `of_group(self, group_id) -> bool` (returns true if user is in group with `group_id`)
+- `of_channel(self, channel_id) -> bool`
+- `is_satisfied(self) -> bool`
 
-### Content - this is an object that represents content from client to users
-##### Content properties:
-- trigger word (has to be unique, will be used as primary key)
-- content_uri (path or url that points to content)
-- Conditions
+#### Content - this is an object that represents content from client to users
+###### Content properties:
+- `trigger word: str` (has to be unique, will be used as primary key)
+- `content_file_id: str` (telegram id of the document)
+- `conditions: list[Condition]`
