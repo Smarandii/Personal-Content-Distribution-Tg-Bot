@@ -1,6 +1,7 @@
-from __init__ import bot, dp, executor, aiogram_types, defined_messages, ContentType
+from __init__ import bot, dp, executor, aiogram_types, ContentType
 from ContentManagementSystem.content_management_system import ContentManagementSystem
 from user_input_validation import Validator
+import defined_messages
 
 
 @dp.message_handler(commands=['start'])
