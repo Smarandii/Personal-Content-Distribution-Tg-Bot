@@ -43,13 +43,13 @@ class ContentManagementSystem:
     def __init__(self):
         self._db = DataBaseInterface()
 
-    def trigger_word_exists(self, trigger_word):
-        return self._db.get_row_where(trigger_word=trigger_word)
+    def trigger_word_exists(self, trigger_word: str):
+        return self._db.get_row_where(trigger_word=trigger_word.lower())
 
     def map_file_id_to_trigger_word(self, message: aiogram_types.Message):
         if message.caption is not None:
             result = self._db.add_row(
-                (message.document.file_id, message.caption)
+                (message.document.file_id, message.caption.lower())
             )
             return result
         else:
@@ -59,4 +59,4 @@ class ContentManagementSystem:
         return self._db.get_row_where(trigger_word=trigger_word)
 
     def get_file_id_mapped_to(self, trigger_word: str):
-        return self._get_file_id_and_description_from_trigger_word(trigger_word)
+        return self._get_file_id_and_description_from_trigger_word(trigger_word.lower())
