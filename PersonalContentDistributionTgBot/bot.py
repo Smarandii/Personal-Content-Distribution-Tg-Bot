@@ -1,4 +1,4 @@
-from . import bot, dp, executor, aiogram_types, defined_messages, ContentType
+from __init__ import bot, dp, executor, aiogram_types, defined_messages, ContentType
 from ContentManagementSystem.content_management_system import ContentManagementSystem
 from user_input_validation import Validator
 
