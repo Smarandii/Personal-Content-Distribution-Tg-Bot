@@ -1,6 +1,6 @@
-from PersonalContentDistributionTgBot import bot, dp, executor, aiogram_types, defined_messages, ContentType
-from PersonalContentDistributionTgBot.ContentManagementSystem.content_management_system import ContentManagementSystem
-from PersonalContentDistributionTgBot.user_input_validation import Validator
+from . import bot, dp, executor, aiogram_types, defined_messages, ContentType
+from ContentManagementSystem.content_management_system import ContentManagementSystem
+from user_input_validation import Validator
 
 
 @dp.message_handler(commands=['start'])
