@@ -1,0 +1,15 @@
+[Unit]
+Description=MariaIBot
+After=network.target
+
+[Service]
+Type=simple
+User=mari
+WorkingDirectory=/home/mari/Personal-Content-Distribution-Tg-Bot/PersonalContentDistributionTgBot/
+ExecStart=/usr/bin/python3 bot.py
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+
