@@ -1,5 +1,5 @@
 from sqlite3 import connect
-from PersonalContentDistributionTgBot.init_db import db_name, table_name
+from init_db import db_name, table_name
 from aiogram import types as aiogram_types
 
 
