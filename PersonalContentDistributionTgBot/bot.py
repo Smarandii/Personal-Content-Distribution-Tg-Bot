@@ -1,8 +1,8 @@
-from PersonalContentDistributionTgBot.ContentManagementSystem.init_db import init_db
+from init_db import init_db
 from aiogram import Bot, Dispatcher, executor, types as aiogram_types
 from aiogram.types import ContentType
 import os
-from ContentManagementSystem.content_management_system import ContentManagementSystem
+from content_management_system import ContentManagementSystem
 from user_input_validation import Validator
 import defined_messages
 
