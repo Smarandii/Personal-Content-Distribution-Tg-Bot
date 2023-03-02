@@ -1,41 +1,38 @@
-from . import psycopg2, table_name, host, user, password, db_name
-
-from PersonalContentDistributionTgBot import aiogram_types
+from sqlite3 import connect
+from .init_db import db_name, table_name
+from aiogram import types as aiogram_types
 
 
 class DataBaseInterface:
 
     def __init__(self):
-        self.host = host
-        self.user = user
-        self.password = password
         self.db_name = db_name
         self.table_name = table_name
-        self.connection = psycopg2.connect(database=self.db_name, user=self.user, password=self.password)
+        self.connection = connect(database=self.db_name)
 
     def add_row(self, row: tuple):
         try:
-            with self.connection.cursor() as cursor:
-                cursor.execute(
-                    f"""INSERT INTO {self.table_name} 
-                    VALUES ('{row[0]}', '{row[1]}');"""
-                )
-                self.connection.commit()
-                return True
+            cursor = self.connection.cursor()
+            cursor.execute(
+                f"""INSERT INTO {self.table_name} 
+                VALUES ('{row[0]}', '{row[1]}');"""
+            )
+            self.connection.commit()
+            return True
         except Exception as e:
             return False
 
     def get_row_where(self, trigger_word=None, file_id=None) -> tuple:
         sql = ""
         if trigger_word is not None:
-            sql = f"SELECT file_id, trigger_word, description FROM {self.table_name} WHERE trigger_word='{trigger_word}'"
+            sql = f"SELECT * FROM {self.table_name} WHERE trigger_word='{trigger_word}'"
         if file_id is not None:
-            sql = f"SELECT file_id, trigger_word, description FROM {self.table_name} WHERE file_id='{file_id}'"
-        with self.connection.cursor() as cursor:
-            cursor.execute(
-                sql
-            )
-            return cursor.fetchone()
+            sql = f"SELECT * FROM {self.table_name} WHERE file_id='{file_id}'"
+        cursor = self.connection.cursor()
+        cursor.execute(
+            sql
+        )
+        return cursor.fetchone()
 
 
 class ContentManagementSystem:

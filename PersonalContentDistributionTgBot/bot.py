@@ -1,7 +1,13 @@
-from __init__ import bot, dp, executor, aiogram_types, ContentType
+from PersonalContentDistributionTgBot.ContentManagementSystem.init_db import init_db
+from aiogram import Bot, Dispatcher, executor, types as aiogram_types
+from aiogram.types import ContentType
+import os
 from ContentManagementSystem.content_management_system import ContentManagementSystem
 from user_input_validation import Validator
 import defined_messages
+
+bot = Bot(token=os.environ['API_TOKEN'])
+dp = Dispatcher(bot)
 
 
 @dp.message_handler(commands=['start'])
@@ -23,12 +29,13 @@ async def get_content(message: aiogram_types.Message):
     validator = Validator(message)
     user_in_channel = await validator.is_user_in_channel()
     if cms_conn.trigger_word_exists(message.text) and user_in_channel:
-        file_id, trigger_word, description = cms_conn.get_file_id_mapped_to(message.text)
+        file_id, trigger_word = cms_conn.get_file_id_mapped_to(message.text)
         await bot.send_document(message.chat.id, file_id, caption=trigger_word)
     if not user_in_channel:
         await bot.send_message(message.chat.id, defined_messages.NOT_MEMBER)
 
 if __name__ == '__main__':
+    init_db()
     while True:
         try:
             cms_conn = ContentManagementSystem()

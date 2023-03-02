@@ -1,4 +1,6 @@
-from PersonalContentDistributionTgBot import aiogram_types, my_secrets
+import os
+
+from aiogram import types as aiogram_types
 import urllib.parse
 import httpx
 
@@ -33,7 +35,7 @@ class Validator:
     def _get_tg_url(method: str, **params) -> str:
         """Returns URL for Telegram Bot API method `method`
         and optional key=value `params`"""
-        url = f"https://api.telegram.org/bot{my_secrets.API_TOKEN}/{method}"
+        url = f"https://api.telegram.org/bot{os.environ['API_TOKEN']}/{method}"
         if params:
             url += "?" + urllib.parse.urlencode(params)
         return url
